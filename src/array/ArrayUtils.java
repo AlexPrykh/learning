@@ -125,4 +125,32 @@ public class ArrayUtils {
         }
         return password;
     }
+
+    //метод, который ищет в тексте самое длинное слово
+    public static String maxWord(String text) {
+        String[] words = text.split(" ");
+        String resultString = "";
+        for (String word : words) {
+            if (word.length() > resultString.length()) {
+                resultString = word;
+            }
+        }
+        return resultString;
+    }
+
+    //метод, который переводит каждую первую букву слова в верхний регистр
+    public static String firstLetterToUpperCase(String text) {
+        String[] words = text.split(" ");
+        String resultString = "";
+        for (String word : words) {
+            if (word != null) {
+                String first = word.substring(0, 1).toUpperCase();
+                String all = word.substring(1) + " ";
+                resultString += first + all;
+            } else {
+                return word;
+            }
+        }
+        return resultString;
+    }
 }
