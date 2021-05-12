@@ -153,4 +153,16 @@ public class ArrayUtils {
         }
         return resultString;
     }
+
+    //метод, который удаляет дублирующиеся слова.
+    public static String removingDuplicateWords(String string) {
+        String[] words = string.split(" ");
+        String result = "";
+        for (String word : words) {
+            if (!result.contains(word)) {
+                result += word + " ";
+            }
+        }
+        return result;
+    }
 }

@@ -22,13 +22,9 @@ public class Task8 {
         String[] words = text.split(" ");
         String resultString = "";
         for (String word : words) {
-            if (word != null) {
-                String first = word.substring(0, 1).toUpperCase();
-                String all = word.substring(1) + " ";
-                resultString += first + all;
-            } else {
-                return word;
-            }
+            String first = word.substring(0, 1).toUpperCase();
+            String all = word.substring(1) + " ";
+            resultString += first + all;
         }
         return resultString;
     }

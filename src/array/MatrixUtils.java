@@ -13,7 +13,7 @@ public class MatrixUtils {
     }
 
     //Создание двумерного массива и заполнение его рандомными числами (double).
-    public static double[][] generateMatrixInRangeToDouble(int rows, int columns, double from, double to) {
+    public static double[][] generateMatrixInRange(int rows, int columns, double from, double to) {
         double[][] matrix = new double[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -34,7 +34,7 @@ public class MatrixUtils {
     }
 
     //Вывод матрицы в консоль для (double).
-    public static void printMatrixToDouble(double[][] matrix) {
+    public static void printMatrix(double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 System.out.print(matrix[i][j] + "\t");
@@ -75,18 +75,29 @@ public class MatrixUtils {
         }
     }
 
-    //Метод который поворачивает матрицу на 90 градусов вправо.
+    //метод, который поворачивает матрицу на 90 градусов вправо.
     public static int[][] turnToRight(int[][] matrix) {
-        int[][] newMatrix = new int[matrix.length][matrix.length];
-        for (int i = 0; i < matrix[0].length; i++) {
+        int[][] newMatrix = new int[matrix[0].length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                newMatrix[j][i] = matrix[i][j];
+                newMatrix[j][matrix.length - i - 1] = matrix[i][j];
             }
         }
         return newMatrix;
     }
 
-    //возвращает сумму елементов столбца матрицы
+    //Метод, который поворачивает матрицу на 90 градусов влево.
+    public static int[][] turnToLeft(int[][] matrix) {
+        int[][] newMatrix = new int[matrix[0].length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                newMatrix[matrix[i].length - j - 1][i] = matrix[i][j];
+            }
+        }
+        return newMatrix;
+    }
+
+    //Возвращает сумму елементов столбца матрицы
     public static int columnSum(int[][] matrix, int rows, int columnIndex) {
         int sum = 0;
         for (int i = 0; i < rows; i++) {
@@ -95,7 +106,7 @@ public class MatrixUtils {
         return sum;
     }
 
-    //метод, который перемножает две матрицы (int).
+    //Метод, который перемножает две матрицы (int).
     public static int[][] multiplyByMatrix(int[][] matrix1, int[][] matrix2) {
         int matrix1ColumnLength = matrix1[0].length;
         int matrix2RowLength = matrix2.length;
@@ -115,8 +126,8 @@ public class MatrixUtils {
         return matrixResult;
     }
 
-    //метод, который перемножает две матрицы (double).
-    public static double[][] multiplyByMatrixToDouble(double[][] m1, double[][] m2) {
+    //Метод, который перемножает две матрицы (double).
+    public static double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
         int m1ColLength = m1[0].length; // m1 columns length
         int m2RowLength = m2.length;    // m2 rows length
         if (m1ColLength != m2RowLength) return null; // matrix multiplication is not possible
