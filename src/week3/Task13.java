@@ -75,33 +75,33 @@ public class Task13 {
         } else {
             System.out.println("You missed, aim more accurately!");
             gameField[row][column] = ".";
-            hint(gameField, row, column);
+            hint(shipMatrix, row, column);
         }
         MatrixUtils.printMatrix(gameField);
         return checkWin(shipMatrix);
     }
 
-    private static void hint(String[][] gameField, int row, int column) {
-        int rw = - 1;
-        int cm = - 1;
-        for (int i = 0; i < gameField[0].length; i++) {
-            for (int j = 0; j < gameField.length; j++) {
-                if (gameField[i][j].equals("X")) {
-                    rw = i;
-                    cm = j;
+    private static void hint(String[][] shipMatrix, int row, int column) {
+        int findShipRow = -1;
+        int findShipColumn = -1;
+        for (int i = 0; i < shipMatrix[0].length; i++) {
+            for (int j = 0; j < shipMatrix.length; j++) {
+                if (shipMatrix[i][j].equals("X")) {
+                    findShipRow = i;
+                    findShipColumn = j;
                     break;
                 }
             }
         }
         String hint = " ";
-        if (row < rw) {
+        if (row > findShipRow) {
             hint += "Try to hit up!";
-        } else if (row > rw) {
+        } else if (row < findShipRow) {
             hint += "Try to hit down!";
         }
-        if (column < cm) {
+        if (column > findShipColumn) {
             hint += "Try to hit left!";
-        } else if (column > cm) {
+        } else if (column < findShipColumn) {
             hint += "Try to hit right!";
         }
         System.out.println(hint);

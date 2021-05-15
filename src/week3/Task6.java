@@ -17,37 +17,28 @@ public class Task6 {
         System.out.println();
 
         System.out.println("Exit:");
+        System.out.println(findMaxSequence(array, 0));
+        System.out.println(findMaxSequence(array, 1));
 
-        int zeroStartIndex = 0;
-        int zeroEndIndex = 0;
-        int maxZeroLength = 0;
+    }
 
-        int unitStartIndex = 0;
-        int unitEndIndex = 0;
-        int maxUnitLength = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            int current = array[i];
-            for (int j = i + 1; j < array.length; j++) {
-                int next = array[j];
-
-                if (current != next) {
-                    int length = j - i;
-                    if (current == 0 && maxZeroLength < length) {
-                        maxZeroLength = length;
-                        zeroStartIndex = i;
-                        zeroEndIndex = j;
-                    } else if (current == 1 && maxUnitLength < length) {
-                        maxUnitLength = length;
-                        unitStartIndex = i;
-                        unitEndIndex = j;
+    private static String findMaxSequence(int[] array, int element) {
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < array.length - 1; i++) {
+            if (array[i] == element) {
+                for (int j = i + 1; j < array.length; j++) {
+                    if (array[j] != element) {
+                        i = j;
+                        break;
+                    } else {
+                        start = i;
+                        end = j;
                     }
-                    i = j - 1;
-                    break;
                 }
             }
+
         }
-        System.out.println("Zero: " + (zeroStartIndex + 1) + ", " + zeroEndIndex);
-        System.out.println("Unit: " + (unitStartIndex + 1) + ", " + unitEndIndex);
+        return String.format("%d - (%d, %d)", element, start + 1, end + 1);
     }
 }
