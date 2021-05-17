@@ -165,4 +165,27 @@ public class ArrayUtils {
         }
         return result;
     }
+
+    //метод, который выводит на екран наибольшую непрерывную последовательность введённого элемента.
+    public static String findMaxSequence(int[] array, int element) {
+        int start = 0;
+        int end = 0;
+
+        for (int i = 0; i < array.length - 1; i++) {
+            if (array[i] == element) {
+                for (int j = i + 1; j < array.length; j++) {
+                    if (array[j] == element) {
+                        if (j - i > end - start) {
+                            start = i;
+                            end = j;
+                        }
+                    } else {
+                        i = j;
+                        break;
+                    }
+                }
+            }
+        }
+        return String.format("%d - (%d, %d)", element, start + 1, end + 1);
+    }
 }
