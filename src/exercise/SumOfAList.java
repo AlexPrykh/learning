@@ -21,16 +21,17 @@ public class SumOfAList {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a number:");
             int number = sc.nextInt();
-            numbers.add(number);
 
             if (number == -1) {
                 stop = true;
+            } else {
+                numbers.add(number);
             }
         }
 
         int sum = 0;
-        for (int i = 0; i < numbers.size() - 1; i++) {
-            sum += numbers.get(i);
+        for (Integer number : numbers) {
+            sum += number;
         }
         System.out.println("Sum numbers: " + sum);
     }

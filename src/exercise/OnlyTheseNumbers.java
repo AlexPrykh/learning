@@ -24,10 +24,11 @@ public class OnlyTheseNumbers {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a number:");
             int number = sc.nextInt();
-            numbers.add(number);
 
             if (number == -1) {
                 stop = true;
+            } else {
+                numbers.add(number);
             }
         }
         Scanner sc = new Scanner(System.in);
@@ -38,11 +39,8 @@ public class OnlyTheseNumbers {
 
         sc.nextLine();
 
-
-        for (int number : numbers) {
-            if (number >= startIndex && number <= endIndex + 1) {
-                System.out.println("Range of input numbers:\n" + number);
-            }
+        for (int i = startIndex - 1; i < endIndex; i++) {
+            System.out.print(numbers.get(i) + "|");
         }
     }
 }

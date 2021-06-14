@@ -10,15 +10,15 @@ public class YourFirsAccount {
         Account artosAccount = new Account("Arto's account", 100.00);
 
         System.out.println("Initial state:");
-        System.out.println(artosAccount.name + "\nBalance: " + artosAccount.balance);
+        System.out.println(artosAccount);
         System.out.println();
 
         System.out.println("Top ups the account by 20:");
-        artosAccount.toUpBalance(20);
+        artosAccount.deposit(20);
         System.out.println("The balance of Arto's account is now: " + artosAccount.balance);
         System.out.println();
 
         System.out.println("End state");
-        System.out.println(artosAccount.name + "\nBalance: " + artosAccount.balance);
+        System.out.println(artosAccount);
     }
 }

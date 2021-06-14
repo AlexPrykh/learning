@@ -18,21 +18,19 @@ public class YourFirstBankTransfer {
         Account myAccount = new Account("My account", 0.00);
 
         System.out.println("Initial state:");
-        System.out.println(matthewsAccount.name + "\nBalance: " + matthewsAccount.balance);
+        System.out.println(matthewsAccount);
         System.out.println();
-        System.out.println(myAccount.name + "\nBalance: " + myAccount.balance);
+        System.out.println(myAccount);
         System.out.println();
 
         System.out.println("Matthew return the hundred!");
-        System.out.println();
 
         matthewsAccount.transferToAccount(myAccount, 100.00);
 
         System.out.println("End state:");
         System.out.println();
-        System.out.println(matthewsAccount.name + "\nBalance: " + matthewsAccount.balance);
+        System.out.println(matthewsAccount);
         System.out.println();
-        System.out.println(myAccount.name + "\nBalance: " + myAccount.balance);
-
+        System.out.println(myAccount);
     }
 }

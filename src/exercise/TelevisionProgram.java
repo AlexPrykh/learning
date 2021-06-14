@@ -30,26 +30,26 @@ import java.util.Scanner;
     Рик и Морти, 25 минут Два с половиной человека, 30 минут
  */
 public class TelevisionProgram {
-    private String nameProgram;
-    private int durationProgram;
+    private String name;
+    private int duration;
 
 
-    public TelevisionProgram(String nameProgram, int durationProgram) {
-        this.nameProgram = nameProgram;
-        this.durationProgram = durationProgram;
+    public TelevisionProgram(String name, int duration) {
+        this.name = name;
+        this.duration = duration;
     }
 
     @Override
     public String toString() {
-        return nameProgram + " (" + durationProgram + ")";
+        return name + " (" + duration + ")";
     }
 
-    public String getNameProgram() {
-        return nameProgram;
+    public String getName() {
+        return name;
     }
 
-    public int getDurationProgram() {
-        return durationProgram;
+    public int getDuration() {
+        return duration;
     }
 
     public static void main(String[] args) {
@@ -77,7 +77,7 @@ public class TelevisionProgram {
         int maxDuration = Integer.parseInt(sc.nextLine());
 
         for (TelevisionProgram nameAndDuration : televisionPrograms) {
-            if (nameAndDuration.getDurationProgram() <= maxDuration) {
+            if (nameAndDuration.getDuration() <= maxDuration) {
                 System.out.println(nameAndDuration);
             }
         }

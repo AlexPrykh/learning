@@ -1,6 +1,7 @@
 package exercise;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /*
@@ -13,29 +14,33 @@ import java.util.Scanner;
  */
 public class Items {
     private String nameItems;
+    private Date date;
 
     public Items(String nameItems) {
         this.nameItems = nameItems;
+        this.date = new Date();
     }
 
     @Override
     public String toString() {
-        return nameItems;
+        return String.format("Name: %s, date: %s", nameItems, date);
     }
 
     public static void main(String[] args) {
         ArrayList<Items> items = new ArrayList<>();
 
-        Scanner sc = new Scanner(System.in);
         while (true) {
+            Scanner sc = new Scanner(System.in);
             System.out.println("Enter a instrument name, empty will stop: ");
             String nameItem = sc.nextLine();
             if (nameItem.isEmpty()) {
                 break;
+            } else {
+                items.add(new Items(nameItem));
             }
-            items.add(new Items(nameItem));
+            System.out.println();
+            System.out.println("Items in total: " + items.size());
         }
-        System.out.println();
         System.out.println("Items in total: " + items.size());
         System.out.println("Items:");
         for (Items item : items) {

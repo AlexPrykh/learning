@@ -22,15 +22,16 @@ public class GreatestInList {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a number:");
             int number = sc.nextInt();
-            numbers.add(number);
 
             if (number == -1) {
                 stop = true;
+            } else {
+                numbers.add(number);
             }
         }
 
         int maxNumber = Integer.MIN_VALUE;
-        for (int number : numbers) {
+        for (Integer number : numbers) {
             if (number > maxNumber) {
                 maxNumber = number;
             }

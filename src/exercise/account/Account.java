@@ -9,7 +9,7 @@ public class Account {
         this.balance = balance;
     }
 
-    public void toUpBalance(double amount) {
+    public void deposit(double amount) {
         balance += amount;
     }
 
@@ -41,5 +41,10 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + "\nBalance: " + this.balance;
     }
 }

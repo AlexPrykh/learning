@@ -20,22 +20,18 @@ public class OnTheList {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a name:");
             String name = sc.nextLine();
-            names.add(name);
 
             if (name.equals("")) {
                 stop = true;
+            } else {
+                names.add(name);
             }
         }
 
         System.out.println("What name do you want to find?");
-        //проверить работу сканера, работает не так как нужно
         Scanner sc = new Scanner(System.in);
         String requestedName = sc.nextLine();
 
-        for (String name : names) {
-            if (requestedName.contains(name)) {
-                System.out.println("Name - " + name + " is on the list.");
-            }
-        }
+        System.out.println("Is this name on the list?\n" + names.contains(requestedName));
     }
 }

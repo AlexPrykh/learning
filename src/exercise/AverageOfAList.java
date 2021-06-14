@@ -21,22 +21,21 @@ public class AverageOfAList {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a number:");
             int number = sc.nextInt();
-            numbers.add(number);
 
             if (number == -1) {
                 stop = true;
+            } else {
+                numbers.add(number);
             }
         }
 
         double sum = 0;
-        double average = 0;
-        int count = 0;
 
-        for (int i = 0; i < numbers.size() - 1; i++) {
+        for (int i = 0; i < numbers.size(); i++) {
             sum += numbers.get(i);
-            count++;
         }
-        average = sum / count;
+        double average = sum / numbers.size();
+
         System.out.println("Average of a list: " + average);
     }
 }

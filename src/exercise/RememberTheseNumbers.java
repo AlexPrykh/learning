@@ -22,15 +22,15 @@ public class RememberTheseNumbers {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a number:");
             int number = sc.nextInt();
-            numbers.add(number);
 
             if (number == -1) {
                 stop = true;
+            } else {
+                numbers.add(number);
             }
-
         }
-        for (int i = 0; i < numbers.size() - 1; i++) {
-            System.out.println(numbers.get(i));
+        for (Integer number : numbers) {
+            System.out.println(number);
         }
     }
 }

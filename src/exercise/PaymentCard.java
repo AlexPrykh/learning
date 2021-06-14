@@ -80,15 +80,13 @@ public class PaymentCard {
     }
 
     public void addMoney(double amount) {
-        if (this.balance > 0 && this.balance <= 150 && amount >= 0) {
-            this.balance += amount;
-        }
-        if (this.balance > 150) {
-            this.balance = 150.0;
-        }
         if (amount < 0) {
-            amount = 0;
-            this.balance += amount;
+            return;
+        }
+        this.balance += amount;
+
+        if (this.balance > 150) {
+            this.balance = 150.00;
         }
     }
 

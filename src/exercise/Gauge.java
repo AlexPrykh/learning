@@ -38,11 +38,7 @@ public class Gauge {
     }
 
     private boolean full() {
-        if (value == 5) {
-            return true;
-        } else {
-            return false;
-        }
+        return value == 5;
     }
 
     private int value() {
@@ -50,13 +46,14 @@ public class Gauge {
     }
 
     private void decrease() {
-        this.value -= 1;
-        if (value < 0) {
-            this.value = 0;
+        if (value > 0) {
+            this.value--;
         }
     }
 
     private void increase() {
-        this.value += 1;
+        if (value < 5) {
+            this.value += 1;
+        }
     }
 }

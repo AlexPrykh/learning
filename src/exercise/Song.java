@@ -16,17 +16,17 @@ public class Song {
         this.length = length;
     }
 
-    public static void main(String[] args) {
-        Song garden = new Song("In The Garden", 10910);
-        System.out.println("The song " + garden.name() + " has a length of " +
-                garden.length() + " seconds.");
+    private String name() {
+        return this.name;
     }
 
-    private int length() {
+    public int getLength() {
         return this.length;
     }
 
-    private String name() {
-        return this.name;
+    public static void main(String[] args) {
+        Song garden = new Song("In The Garden", 10910);
+        System.out.println("The song " + garden.name() + " has a length of " +
+                garden.getLength() + " seconds.");
     }
 }

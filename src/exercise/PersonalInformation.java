@@ -24,12 +24,12 @@ import java.util.Scanner;
 public class PersonalInformation {
     private String name;
     private String surname;
-    private int anIdentificationNumber;
+    private int IdentificationNumber;
 
-    public PersonalInformation(String name, String surname, int anIdentificationNumber) {
+    public PersonalInformation(String name, String surname, int IdentificationNumber) {
         this.name = name;
         this.surname = surname;
-        this.anIdentificationNumber = anIdentificationNumber;
+        this.IdentificationNumber = IdentificationNumber;
     }
 
     @Override

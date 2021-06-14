@@ -28,13 +28,9 @@ public class Debt {
         mortgage.waitOneYear();
         mortgage.printBalance();
 
-        int years = 0;
-
-        while (years < 20) {
+        for (int i = 0; i < 20; i++) {
             mortgage.waitOneYear();
-            years = years + 1;
         }
-
         mortgage.printBalance();
     }
 

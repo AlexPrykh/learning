@@ -33,7 +33,11 @@ public class IndexOfSmallest {
                 minNumber = number;
             }
         }
-        System.out.println("Smallest number: " + minNumber +
-                "\nIndex: " + numbers.indexOf(minNumber));
+        for (int i = 0; i < numbers.size(); i++) {
+            int currentNumber = numbers.get(i);
+            if (currentNumber == minNumber) {
+                System.out.println("Smallest number: " + currentNumber + "\nindex: " + i);
+            }
+        }
     }
 }

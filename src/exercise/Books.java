@@ -81,6 +81,19 @@ public class Books {
         return yearOfPublication;
     }
 
+    public String getInfo(String mode) {
+        if ("everything".equals(mode)) {
+            return "Title of the book: " + getName() +
+                    "\nPages: " + getNumberOfPages() +
+                    "\nPublication year: " + getYearOfPublication();
+        }
+
+        if ("name".equals(mode)) {
+            return "Title of the book: " + getName();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         ArrayList<Books> books = new ArrayList<>();
 
@@ -105,17 +118,8 @@ public class Books {
 
         System.out.println("What information will be printed?");
         String output = sc.nextLine();
-
         for (Books book : books) {
-            if (output.contains("everything")) {
-                System.out.println("Title of the book: " + book.getName() +
-                        "\nPages: " + book.getNumberOfPages() +
-                        "\nPublication year: " + book.getYearOfPublication());
-            }
-
-            if (output.contains("name")) {
-                System.out.println("Title of the book: " + book.getName());
-            }
+            System.out.println(book.getInfo(output));
         }
     }
 }

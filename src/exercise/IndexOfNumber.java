@@ -32,11 +32,11 @@ public class IndexOfNumber {
         System.out.println("Enter the number you want to find:");
         Scanner sc = new Scanner(System.in);
         int numberFind = sc.nextInt();
-        for (int number : numbers) {
-            if (numberFind == number) {
-                System.out.println("Found number: " + number +
-                        "\nIndex: " + numbers.indexOf(numberFind));
-            }
+        int index = numbers.indexOf(numberFind);
+        if (index != -1) {
+            System.out.println("Found number at index: " + index);
+        } else {
+            System.out.println("Number not found.");
         }
     }
 }

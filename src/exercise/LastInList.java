@@ -24,12 +24,13 @@ public class LastInList {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a name:");
             String name = sc.nextLine();
-            names.add(name);
 
             if (name.equals("")) {
                 stop = true;
+            } else {
+                names.add(name);
             }
         }
-        System.out.println("Last name in list:\n" + names.get(names.size() - 2));
+        System.out.println("Last name in list:\n" + names.get(names.size() - 1));
     }
 }

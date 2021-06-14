@@ -19,17 +19,18 @@ public class Agent {
         this.surname = surname;
     }
 
+    @Override
+    public String toString() {
+        return "My name is " + this.name + ", " + this.name + " " + this.surname;
+    }
+
     public static void main(String[] args) {
         Agent bond = new Agent("James", "Bond");
 
-        bond.toString(); // prints nothing
+        bond.toString();
         System.out.println(bond);
 
         Agent ionic = new Agent("Ionic", "Bond");
         System.out.println(ionic);
-    }
-
-    public String toString() {
-        return "My name is " + this.name + ", " + this.name + " " + this.surname;
     }
 }

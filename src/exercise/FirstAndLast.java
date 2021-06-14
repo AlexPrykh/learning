@@ -22,13 +22,15 @@ public class FirstAndLast {
             Scanner sc = new Scanner(System.in);
             System.out.println("Please, enter a name:");
             String name = sc.nextLine();
-            names.add(name);
 
-            if (name.equals("")) {
+            if (name.isEmpty()) {
                 stop = true;
+            } else {
+                names.add(name);
             }
         }
+
         System.out.println("First element in the list:\n" + names.get(0) +
-                "\nLast elements in the list:\n" + names.get(names.size() - 2));
+                "\nLast elements in the list:\n" + names.get(names.size() - 1));
     }
 }
