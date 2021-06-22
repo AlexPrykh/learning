@@ -8,7 +8,7 @@ public class Sum {
             return -1.0;
         }
 
-        int sum = 0;
+        double sum = 0;
         for (int number : numbers) {
             sum += number;
         }
