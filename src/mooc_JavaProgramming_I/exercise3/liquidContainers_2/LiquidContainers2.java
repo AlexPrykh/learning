@@ -8,7 +8,7 @@ import java.util.Scanner;
         и измените его, чтобы использовать новый класс Container. Основной метод в классе
         LiquidContainers2 должен запускать программу.
  */
-public class liquidContainers2 {
+public class LiquidContainers2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Container firstContainer = new Container();
