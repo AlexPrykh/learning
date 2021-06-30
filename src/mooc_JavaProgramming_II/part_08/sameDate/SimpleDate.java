@@ -1,4 +1,4 @@
-package mooc_JavaProgramming_II.sameDate;
+package mooc_JavaProgramming_II.part_08.sameDate;
 
 /*
         Шаблон упражнения содержит класс SimpleDate, который определяет объект даты на основе

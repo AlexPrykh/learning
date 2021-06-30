@@ -1,4 +1,4 @@
-package mooc_JavaProgramming_II.sameDate;
+package mooc_JavaProgramming_II.part_08.sameDate;
 
 public class Main {
     public static void main(String[] args) {
