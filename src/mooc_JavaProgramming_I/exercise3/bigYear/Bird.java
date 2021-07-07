@@ -22,7 +22,6 @@ public class Bird {
     public Bird(String name, String latinName) {
         this.name = name;
         this.latinName = latinName;
-        this.observations = observations;
     }
 
     public String getName() {

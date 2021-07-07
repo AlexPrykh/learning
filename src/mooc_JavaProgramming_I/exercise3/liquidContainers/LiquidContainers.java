@@ -32,6 +32,7 @@ import java.util.Scanner;
     Все функции должны быть добавлены к методу main в классе LiquidContainers.
  */
 public class LiquidContainers {
+
     public static void main(String[] args) {
 
         int firstVolume = 0;

@@ -7,7 +7,7 @@ public class ClassCheck {
 
         container.add(50);
         System.out.println(container);
-        System.out.println(container.contains());
+        System.out.println(container.getTotalAmount());
 
         container.remove(60);
         System.out.println(container);

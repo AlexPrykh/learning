@@ -12,36 +12,43 @@ public class UserInterface {
     }
 
     public void start() {
+        printStartInfo();
+
+        while (true) {
+            System.out.println("Please, enter  a command:");
+            String input = sc.nextLine();
+
+            if ("Quit".equalsIgnoreCase(input)) {
+                break;
+            }
+            processCommand(input);
+        }
+    }
+
+    private void printStartInfo() {
         System.out.println("Commands:");
         System.out.println("Add - adds a bird");
         System.out.println("Observation - adds observation");
         System.out.println("All - printing all birds");
         System.out.println("One - printing one bird");
         System.out.println("Quit - ends the program");
+    }
 
-        while (true) {
-            System.out.println("Please, enter  a command:");
-            String input = sc.nextLine();
+    private void processCommand(String input) {
+        if ("Add".equalsIgnoreCase(input)) {
+            add();
+        }
 
-            if ("Add".equalsIgnoreCase(input)) {
-                add();
-            }
+        if ("Observation".equalsIgnoreCase(input)) {
+            observation();
+        }
 
-            if ("Observation".equalsIgnoreCase(input)) {
-                observation();
-            }
+        if ("All".equalsIgnoreCase(input)) {
+            printAllBirds();
+        }
 
-            if ("All".equalsIgnoreCase(input)) {
-                printAllBirds();
-            }
-
-            if ("One".equalsIgnoreCase(input)) {
-                printOneBird();
-            }
-
-            if ("Quit".equalsIgnoreCase(input)) {
-                break;
-            }
+        if ("One".equalsIgnoreCase(input)) {
+            printOneBird();
         }
     }
 

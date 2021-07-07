@@ -1,4 +1,4 @@
-package mooc_JavaProgramming_I.exercise3.myArrayList;
+package myArrayList;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,9 +46,9 @@ public class MyArrayList {
 
     //дополнительный закрытый метод для увеличения ёмкости массива
     private Object[] increaseCapacity() {
-        int[] temp = new int[(int) (elements.length * 1.5 + 1)]; //создаем массив большего размера
+        Object[] temp = new Object[(int) (elements.length * 1.5 + 1)]; //создаем массив большего размера
         System.arraycopy(elements, 0, temp, 0, elements.length);
-        return new int[][]{temp};
+        return temp;
     }
 
     //проверяем индексы, не выходят ли они за границы массива
@@ -78,7 +78,7 @@ public class MyArrayList {
         }
         System.arraycopy(elements, index, elements, index + 1, size - index);
         if (isIndexExist(index) <= size) { //проверяем индуксы
-            increaseCapacity(); // увеличиваем массив
+            elements = increaseCapacity(); // увеличиваем массив
         }
         elements[index] = object;
         size++;
@@ -142,7 +142,7 @@ public class MyArrayList {
         } else {
             //сравнивает элементы с ==
             for (int i = 0; i < size; i++) {
-                if (object == temp[i]) {
+                if (temp[i] == null) {
                     return true;
                 }
             }

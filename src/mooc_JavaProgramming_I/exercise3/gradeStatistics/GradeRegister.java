@@ -57,10 +57,9 @@ public class GradeRegister {
 
         if (this.points.isEmpty()) {
             return -1;
-        } else {
-            for (Integer point : this.points) {
-                total += point;
-            }
+        }
+        for (Integer point : this.points) {
+            total += point;
         }
         return total / points.size();
     }
@@ -71,10 +70,9 @@ public class GradeRegister {
 
         if (passingPoints.isEmpty()) {
             return 0.00;
-        } else {
-            for (Integer passingPoint : passingPoints) {
-                total += passingPoint;
-            }
+        }
+        for (Integer passingPoint : passingPoints) {
+            total += passingPoint;
         }
 
         return total / passingPoints.size();
@@ -84,34 +82,28 @@ public class GradeRegister {
     public double passPercentage() {
         int participants = points.size();
         int passing = passingPoints.size();
-        double passingRatio;
 
         if (participants == 0) {
             return -1;
-        } else {
-            passingRatio = (double) (100 * passing) / participants;
-            return passingRatio;
         }
+        return (double) (100 * passing) / participants;
     }
 
     // Method to convert points received into a grade
     public static int pointsToGrade(int points) {
-        int grade;
-
         if (points < 50) {
-            grade = 0;
+            return 0;
         } else if (points < 60) {
-            grade = 1;
+            return 1;
         } else if (points < 70) {
-            grade = 2;
+            return 2;
         } else if (points < 80) {
-            grade = 3;
+            return 3;
         } else if (points < 90) {
-            grade = 4;
+            return 4;
         } else {
-            grade = 5;
+            return 5;
         }
-        return grade;
     }
 
     // Method to return the total of a given grade for the whole class

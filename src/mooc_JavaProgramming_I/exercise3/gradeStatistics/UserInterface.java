@@ -15,7 +15,7 @@ public class UserInterface {
     //Method to start the program
     public void start() {
         readPoints();
-        System.out.println("");
+        System.out.println();
         printAverageAll();
         printAveragePassing();
         printPassingPercentage();

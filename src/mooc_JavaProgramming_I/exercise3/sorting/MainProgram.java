@@ -49,9 +49,9 @@ import java.util.Arrays;
 public class MainProgram {
     public static int smallest(int[] array) {
         int smallest = array[0];
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] < smallest) {
-                smallest = array[i];
+        for (int i : array) {
+            if (i < smallest) {
+                smallest = i;
             }
         }
         return smallest;
@@ -71,13 +71,14 @@ public class MainProgram {
 
     public static int indexOfSmallestFrom(int[] table, int startIndex) {
         int smallest = table[startIndex];
+        int index = 0;
         for (int i = startIndex; i < table.length; i++) {
             if (table[i] < smallest) {
                 smallest = table[i];
-                startIndex = i;
+                index = i;
             }
         }
-        return startIndex;
+        return index;
     }
 
     public static void swap(int[] array, int index1, int index2) {

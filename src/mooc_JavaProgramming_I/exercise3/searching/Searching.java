@@ -41,9 +41,9 @@ public class Searching {
 
         System.out.println();
         System.out.println("Searching with linear search:");
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         int linearSearchId = linearSearch(books, idToSearchFor);
-        System.out.println("The search took " + (System.currentTimeMillis() - start) + " milliseconds.");
+        System.out.println("The search took " + (System.nanoTime() - start) + " milliseconds.");
         if (linearSearchId < 0) {
             System.out.println("Book not found");
         } else {
@@ -54,9 +54,9 @@ public class Searching {
 
         System.out.println();
         System.out.println("Searching with binary search:");
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         int binarySearchId = binarySearch(books, idToSearchFor);
-        System.out.println("The search took " + (System.currentTimeMillis() - start) + " milliseconds.");
+        System.out.println("The search took " + (System.nanoTime() - start) + " milliseconds.");
         if (binarySearchId < 0) {
             System.out.println("Book not found");
         } else {
@@ -79,7 +79,7 @@ public class Searching {
     public static int binarySearch(ArrayList<Book> books, int searchedId) {
         int start = 0;
         int end = books.size() - 1;
-        int middle = 0;
+        int middle;
 
         while (start <= end) {
             middle = (start + end) / 2;

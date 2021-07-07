@@ -22,28 +22,32 @@ public class Container {
         this.totalAmount = totalAmount;
     }
 
-    public int contains() {
-        return this.totalAmount;
+    public int getTotalAmount() {
+        return totalAmount;
     }
 
     public void add(int amount) {
         if (amount < 0) {
             return;
-        } else if (amount > 0) {
+        }
+
+        if (amount > 0) {
             totalAmount += amount;
         }
+
         if (totalAmount > 100) {
             totalAmount = 100;
         }
     }
 
     public void remove(int amount) {
-        if (amount >= 0) {
-            if ((totalAmount - amount) < 0) {
-                totalAmount = 0;
-            } else if ((totalAmount - amount) >= 0) {
-                totalAmount -= amount;
-            }
+        if (amount < 0) {
+            return;
+        }
+        if (totalAmount - amount < 0) {
+            totalAmount = 0;
+        } else {
+            totalAmount -= amount;
         }
     }
 
