@@ -14,11 +14,9 @@ public class UserInterface {
     }
 
     public void start() {
-        System.out.println("Commands: "
-                + "\nadd - adds liquid to the first flask"
-                + "\nmove - moves liquid to the second flask"
-                + "\nremove - removes liquid from the second flask"
-                + "\nquit - exit the program");
+        printCommandsList();
+        System.out.println();
+        printContainersOccupancy();
         System.out.println();
         System.out.println("Please, enter a command:");
 
@@ -32,29 +30,53 @@ public class UserInterface {
             String command = parts[0];
             int amount = Integer.parseInt(parts[1]);
 
-            if ("add".equals(command)) {
-                this.firstContainer.add(amount);
-                System.out.println("First : " + firstContainer);
-                System.out.println("Second : " + secondContainer);
-            } else if ("move".equals(command)) {
-                if ((this.firstContainer.contains() - amount) >= 0) {
-                    this.firstContainer.remove(amount);
-                    this.secondContainer.add(amount);
-                    System.out.println("First : " + firstContainer);
-                    System.out.println("Second : " + secondContainer);
-                } else {
-                    this.firstContainer.remove(this.firstContainer.contains());
-                    this.secondContainer.add(this.firstContainer.contains());
-                    System.out.println("First : " + firstContainer);
-                    System.out.println("Second : " + secondContainer);
-                }
-            } else if ("remove".equals(command)) {
-                this.secondContainer.remove(amount);
-                System.out.println("First : " + firstContainer);
-                System.out.println("Second : " + secondContainer);
-            }
+            processCommand(command, amount);
         }
+        printContainersOccupancy();
+    }
+
+    private void printCommandsList() {
+        System.out.println("Commands: "
+                + "\nadd - adds liquid to the first flask"
+                + "\nmove - moves liquid to the second flask"
+                + "\nremove - removes liquid from the second flask"
+                + "\nquit - exit the program");
+    }
+
+    private void printContainersOccupancy() {
         System.out.println("First : " + firstContainer);
         System.out.println("Second : " + secondContainer);
+    }
+
+    private void processCommand(String command, int amount) {
+        if (command.equals("add")) {
+            add(amount);
+        } else if (command.equals("move")) {
+            move(amount);
+        } else if (command.equals("remove")) {
+            remove(amount);
+        }
+    }
+
+    private void add(int amount) {
+        this.firstContainer.add(amount);
+        printContainersOccupancy();
+    }
+
+    private void move(int amount) {
+        if ((this.firstContainer.contains() - amount) >= 0) {
+            this.firstContainer.remove(amount);
+            this.secondContainer.add(amount);
+            printContainersOccupancy();
+        } else {
+            this.firstContainer.remove(this.firstContainer.contains());
+            this.secondContainer.add(this.firstContainer.contains());
+            printContainersOccupancy();
+        }
+    }
+
+    private void remove(int amount) {
+        this.secondContainer.remove(amount);
+        printContainersOccupancy();
     }
 }

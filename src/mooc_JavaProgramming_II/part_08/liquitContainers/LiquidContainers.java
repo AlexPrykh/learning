@@ -39,19 +39,15 @@ import java.util.Scanner;
         Реализовать функционал по удалению жидкости из второй емкости.
  */
 public class LiquidContainers {
-    public static void main(String[] args) {
-        int firstVolume = 0;
-        int secondVolume = 0;
-        int maxVolume = 100;
+    private static int firstVolume = 0;
+    private static int secondVolume = 0;
+    private static int maxVolume = 100;
 
-        System.out.println("First: " + firstVolume + "/" + maxVolume);
-        System.out.println("Second: " + secondVolume + "/" + maxVolume);
+    public static void main(String[] args) {
+
+        containersOccupancy(firstVolume, secondVolume, maxVolume);
         System.out.println();
-        System.out.println("Command: "
-                + "\nadd - adds liquid to the first flask"
-                + "\nmove - moves liquid to the second flask"
-                + "\nremove - removes liquid from the second flask"
-                + "\nquit - exit the program");
+        printCommandList();
         System.out.println();
         System.out.println("Please, enter  a command:");
 
@@ -66,44 +62,68 @@ public class LiquidContainers {
             String command = parts[0];
             int amount = Integer.parseInt(parts[1]);
 
-            if ("add".equals(command) && amount >= 0) {
-                if (firstVolume <= maxVolume) {
-                    firstVolume += amount;
-                    if (firstVolume > maxVolume) {
-                        firstVolume = maxVolume;
-                    }
-                    System.out.println("First: " + firstVolume + "/" + maxVolume);
-                    System.out.println("Second: " + secondVolume + "/" + maxVolume);
-                }
-            } else if ("move".equals(command) && amount >= 0) {
-                if ((firstVolume - amount) >= 0) {
-                    secondVolume += amount;
-                    firstVolume -= amount;
-                    if (secondVolume >= maxVolume) {
-                        secondVolume = maxVolume;
-                    }
-                    System.out.println("First: " + firstVolume + "/" + maxVolume);
-                    System.out.println("Second: " + secondVolume + "/" + maxVolume);
-                } else if ((firstVolume - amount) < 0) {
-                    secondVolume += firstVolume;
-                    firstVolume = 0;
-                    if (secondVolume >= maxVolume) {
-                        secondVolume = maxVolume;
-                    }
-                    System.out.println("First: " + firstVolume + "/" + maxVolume);
-                    System.out.println("Second: " + secondVolume + "/" + maxVolume);
-                }
-            } else if ("remove".equals(command) && amount >= 0) {
-                if ((secondVolume - amount) >= 0) {
-                    secondVolume -= amount;
-                } else if ((secondVolume - amount) < 0) {
-                    secondVolume = 0;
-                }
-                System.out.println("First: " + firstVolume + "/" + maxVolume);
-                System.out.println("Second: " + secondVolume + "/" + maxVolume);
-            }
+            processCommand(command, amount);
         }
+        containersOccupancy(firstVolume, secondVolume, maxVolume);
+    }
+
+    private static void printCommandList() {
+        System.out.println("Command: "
+                + "\nadd - adds liquid to the first flask"
+                + "\nmove - moves liquid to the second flask"
+                + "\nremove - removes liquid from the second flask"
+                + "\nquit - exit the program");
+    }
+
+    private static void containersOccupancy(int firstVolume, int secondVolume, int maxVolume) {
         System.out.println("First: " + firstVolume + "/" + maxVolume);
         System.out.println("Second: " + secondVolume + "/" + maxVolume);
+    }
+
+    private static void processCommand(String command, int amount) {
+        if (command.equals("add") && amount >= 0) {
+            add(amount);
+        } else if (command.equals("move") && amount >= 0) {
+            move(amount);
+        } else if (command.equals("remove") && amount >= 0) {
+            remove(amount);
+        }
+    }
+
+    private static void add(int amount) {
+        if (firstVolume <= maxVolume) {
+            firstVolume += amount;
+            if (firstVolume > maxVolume) {
+                firstVolume = maxVolume;
+            }
+            containersOccupancy(firstVolume, secondVolume, maxVolume);
+        }
+    }
+
+    private static void move(int amount) {
+        if ((firstVolume - amount) >= 0) {
+            secondVolume += amount;
+            firstVolume -= amount;
+            if (secondVolume >= maxVolume) {
+                secondVolume = maxVolume;
+            }
+            containersOccupancy(firstVolume, secondVolume, maxVolume);
+        } else if ((firstVolume - amount) < 0) {
+            secondVolume += firstVolume;
+            firstVolume = 0;
+            if (secondVolume >= maxVolume) {
+                secondVolume = maxVolume;
+            }
+            containersOccupancy(firstVolume, secondVolume, maxVolume);
+        }
+    }
+
+    private static void remove(int amount) {
+        if ((secondVolume - amount) >= 0) {
+            secondVolume -= amount;
+        } else if ((secondVolume - amount) < 0) {
+            secondVolume = 0;
+        }
+        containersOccupancy(firstVolume, secondVolume, maxVolume);
     }
 }
