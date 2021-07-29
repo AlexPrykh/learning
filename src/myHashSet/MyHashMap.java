@@ -4,9 +4,10 @@ import java.util.Objects;
 
 public class MyHashMap {
     private Entry[] table;
-    private int capacity = 16;
+    static final int DEFAULT_INITIAL_CAPACITY = 16;
     private double loadFactor = 0.75;
     private int size;
+    private int MAX_ENTRY_SIZE = 5;
 
     private static class Entry {
         Object key;
@@ -20,14 +21,14 @@ public class MyHashMap {
     }
 
     public MyHashMap() {
-        this.table = new Entry[capacity];
+        this.table = new Entry[DEFAULT_INITIAL_CAPACITY];
     }
 
     public boolean isEmpty() {
         return this.size == 0;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -55,11 +56,11 @@ public class MyHashMap {
     }
 
     public void put(Object key, Object value) {
-        if (this.shouldResize()) {
+        if (this.shouldResize(table[(int) value])) {
             this.resize();
         }
 
-        if (addEntry(new Entry(key, value), this.table)) {
+        if (addEntry(new Entry(key, value))) {
             this.size++;
         }
     }
@@ -85,39 +86,55 @@ public class MyHashMap {
         return false;
     }
 
-    private boolean shouldResize() {
-        return this.size > Math.ceil((double) this.capacity * this.loadFactor);
+    private boolean shouldResize(Entry entry) {
+        if (entry == null) {
+            return false;
+        }
+
+        int countValues = 1;
+        while (entry.next != null) {
+            countValues++;
+            entry = entry.next;
+        }
+        if (countValues >= MAX_ENTRY_SIZE) {
+            return true;
+        }
+        return false;
     }
 
     private void resize() {
-        this.capacity = this.size * 2;
+        int newCopacity = (int) (this.size * 2.5);
 
-        Entry[] newEntries = new Entry[this.capacity];
-        for (Entry entry : table) {
-            if (entry != null) {
-                this.setEntry(entry, newEntries);
+        Entry[] oldEntries = this.table;
+        Entry[] newEnries = new Entry[newCopacity];
+        this.table = newEnries;
+        this.size = 0;
+
+        for (Entry oldEntry : oldEntries) {
+            while (oldEntry != null) {
+                Object key = oldEntry.key;
+                Object value = oldEntry.value;
+                put(key, value);
+                oldEntry = oldEntry.next;
             }
         }
-        this.table = newEntries;
     }
 
-    private void setEntry(Entry entry, Entry[] newEntries) {
-        Entry nextEntry = entry.next;
-        entry.next = null;
 
-        this.addEntry(entry, newEntries);
-
-        if (nextEntry != null) {
-            this.setEntry(nextEntry, newEntries);
-        }
-    }
-
-    private boolean addEntry(Entry entry, Entry[] newEntries) {
+    private boolean addEntry(Entry entry) {
         int index = indexOf(entry.key);
-        Entry existingEntry = newEntries[index];
+        Entry existingEntry = this.table[index];
+
+        boolean shouldResize = this.shouldResize(existingEntry);
+
+        if (shouldResize) {
+            this.resize();
+            index = indexOf(entry.key);
+            existingEntry = this.table[index];
+        }
 
         if (existingEntry == null) {
-            newEntries[index] = entry;
+            this.table[index] = entry;
             return true;
         } else {
             while (!this.matches(entry.key, existingEntry.key)
@@ -135,7 +152,7 @@ public class MyHashMap {
 
     public void display() {
 
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
                 Entry entry = table[i];
                 while (entry != null) {
@@ -163,7 +180,7 @@ public class MyHashMap {
 
     public void displaySet() {
 
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
                 Entry entry = table[i];
                 while (entry != null) {
@@ -175,7 +192,18 @@ public class MyHashMap {
     }
 
     private int hash(Object key) {
-        return Math.abs(key.hashCode()) % capacity;
+        return Math.abs(key.hashCode()) % table.length;
+    }
+
+    public void clear() {
+        Entry[] tab;
+        if ((tab = this.table) != null && this.size > 0) {
+            this.size = 0;
+
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = null;
+            }
+        }
     }
 
     private Entry getMatchingEntry(Object key) {
@@ -189,12 +217,12 @@ public class MyHashMap {
     }
 
     private int indexOf(Object object) {
-        return object == null ? 0 : hash(object) & (this.capacity - 1);
+        return object == null ? 0 : hash(object) & (this.table.length - 1);
     }
 
     private boolean matches(Object o1, Object o2) {
         return Objects.equals(o1, o2);
-        //return (o1 == null && o2 == null) ||
+        // return (o1 == null && o2 == null) ||
         //        (o1 != null && o2 != null && o1.equals(o2));
     }
 }
