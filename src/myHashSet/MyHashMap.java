@@ -1,5 +1,6 @@
 package myHashSet;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MyHashMap {
@@ -56,7 +57,8 @@ public class MyHashMap {
     }
 
     public void put(Object key, Object value) {
-        if (this.shouldResize(table[(int) value])) {
+        int index = indexOf(key);
+        if (this.shouldResize(table[index])) {
             this.resize();
         }
 
@@ -96,18 +98,14 @@ public class MyHashMap {
             countValues++;
             entry = entry.next;
         }
-        if (countValues >= MAX_ENTRY_SIZE) {
-            return true;
-        }
-        return false;
+        return countValues >= MAX_ENTRY_SIZE;
     }
 
     private void resize() {
-        int newCopacity = (int) (this.size * 2.5);
+        int newCapacity = (int) (this.size * 2.5);
 
         Entry[] oldEntries = this.table;
-        Entry[] newEnries = new Entry[newCopacity];
-        this.table = newEnries;
+        this.table = new Entry[newCapacity];
         this.size = 0;
 
         for (Entry oldEntry : oldEntries) {
@@ -124,14 +122,6 @@ public class MyHashMap {
     private boolean addEntry(Entry entry) {
         int index = indexOf(entry.key);
         Entry existingEntry = this.table[index];
-
-        boolean shouldResize = this.shouldResize(existingEntry);
-
-        if (shouldResize) {
-            this.resize();
-            index = indexOf(entry.key);
-            existingEntry = this.table[index];
-        }
 
         if (existingEntry == null) {
             this.table[index] = entry;
@@ -152,9 +142,9 @@ public class MyHashMap {
 
     public void display() {
 
-        for (int i = 0; i < table.length; i++) {
-            if (table[i] != null) {
-                Entry entry = table[i];
+        for (Entry value : table) {
+            if (value != null) {
+                Entry entry = value;
                 while (entry != null) {
                     System.out.print("{" + entry.key + " = " + entry.value + "}" + " ");
                     entry = entry.next;
@@ -163,26 +153,26 @@ public class MyHashMap {
         }
     }
 
-    public Object contains(Object key) {
-        int hash = hash(key);
-        if (table[hash] == null) {
-            return null;
+    public boolean contains(Object key) {
+        int index = indexOf(key);
+        if (table[index] == null) {
+            return false;
         } else {
-            Entry temp = table[hash];
+            Entry temp = table[index];
             while (temp != null) {
                 if (temp.key.equals(key))
-                    return key;
+                    return true;
                 temp = temp.next;
             }
-            return null;
+            return false;
         }
     }
 
     public void displaySet() {
 
-        for (int i = 0; i < table.length; i++) {
-            if (table[i] != null) {
-                Entry entry = table[i];
+        for (Entry value : table) {
+            if (value != null) {
+                Entry entry = value;
                 while (entry != null) {
                     System.out.print(entry.key + " ");
                     entry = entry.next;
@@ -191,18 +181,12 @@ public class MyHashMap {
         }
     }
 
-    private int hash(Object key) {
-        return Math.abs(key.hashCode()) % table.length;
-    }
-
     public void clear() {
         Entry[] tab;
         if ((tab = this.table) != null && this.size > 0) {
             this.size = 0;
 
-            for (int i = 0; i < tab.length; i++) {
-                tab[i] = null;
-            }
+            Arrays.fill(tab, null);
         }
     }
 
@@ -217,7 +201,11 @@ public class MyHashMap {
     }
 
     private int indexOf(Object object) {
-        return object == null ? 0 : hash(object) & (this.table.length - 1);
+        if (object == null) return 0;
+
+        int hashCode = object.hashCode();
+        hashCode = Math.abs(hashCode);
+        return hashCode % table.length;
     }
 
     private boolean matches(Object o1, Object o2) {
