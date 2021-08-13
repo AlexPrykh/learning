@@ -77,7 +77,7 @@ public class MyArrayList {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size " + size);
         }
         System.arraycopy(elements, index, elements, index + 1, size - index);
-        if (isIndexExist(index) <= size) { //проверяем индуксы
+        if (isIndexExist(index) <= size) { //проверяем индексы
             elements = increaseCapacity(); // увеличиваем массив
         }
         elements[index] = object;
@@ -171,7 +171,7 @@ public class MyArrayList {
     }
 
     //переопределенный метод для красивого вывода списка на екран
-    //иначе будут выводится значения незаполненных ячеек [1, 10] вместо [1, 10, 0, 0...]
+    //иначе будут выводиться значения незаполненных ячеек [1, 10] вместо [1, 10, 0, 0...]
     @Override
     public String toString() {
         int[] temp = new int[size];

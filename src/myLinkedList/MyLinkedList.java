@@ -167,11 +167,6 @@ public class MyLinkedList {
         return unlink(nodeToUnlink);
     }
 
-    //метод, который проверяет есть ли элементы в списке
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     //метод, который проверяет элементы на равность
     public boolean contains(Object object) {
         return indexOf(object) != -1;
