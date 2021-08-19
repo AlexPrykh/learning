@@ -163,7 +163,7 @@ public class MyArrayListUsingGenerics<E> {
 
     @Override
     public String toString() {
-        int[] temp = new int[size];
+        Object[] temp = new Object[size];
         System.arraycopy(elementData, 0, temp, 0, size);
         return Arrays.toString(temp);
     }

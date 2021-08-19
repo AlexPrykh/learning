@@ -15,7 +15,7 @@ public class MyHashSet {
     }
 
     public boolean contains(Object object) {
-        return map.contains(object) != null;
+        return map.contains(object);
     }
 
     public boolean remove(Object object) {
@@ -27,7 +27,7 @@ public class MyHashSet {
     }
 
     public int size() {
-        return map.getSize();
+        return map.size();
     }
 
     public void display() {
