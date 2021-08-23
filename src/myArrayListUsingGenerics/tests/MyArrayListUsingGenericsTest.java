@@ -2,12 +2,7 @@ package myArrayListUsingGenerics.tests;
 
 import myArrayListUsingGenerics.MyArrayListUsingGenerics;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collection;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MyArrayListUsingGenericsTest {
 
@@ -29,8 +24,15 @@ class MyArrayListUsingGenericsTest {
     @org.junit.jupiter.api.Test
     void isEmpty() {
         MyArrayListUsingGenerics<Integer> list = new MyArrayListUsingGenerics(10);
+        list.add(1);
+        list.add(2);
+        list.add(3);
 
-        boolean expected = list.isEmpty();
+        Assertions.assertFalse(list.isEmpty());
+
+        list.clear();
+
+        boolean expected = true;
         boolean actual = list.isEmpty();
 
         Assertions.assertTrue(expected, String.valueOf(actual));
