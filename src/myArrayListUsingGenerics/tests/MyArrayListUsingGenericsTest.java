@@ -100,7 +100,7 @@ class MyArrayListUsingGenericsTest {
 
         list.set(0, 7);
 
-        int expected = list.get(0);
+        int expected = 7;
         int actual = list.get(0);
 
         Assertions.assertEquals(expected, actual);
