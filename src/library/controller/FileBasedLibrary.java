@@ -11,7 +11,11 @@ public class FileBasedLibrary {
     private List<Book> books = new ArrayList<>();
     private String fileName;
 
-    public void setFileName(String fileName) {
+    public void reassignFileName(String fileName) throws FileNotFoundException {
+        File file = new File(fileName);
+        if (!file.exists() || !file.isDirectory()) {
+            throw new FileNotFoundException(fileName);
+        }
         this.fileName = fileName;
     }
 
@@ -45,6 +49,7 @@ public class FileBasedLibrary {
             }
 
             this.books = parsedBooks;
+            System.out.println("Loaded library from file: " + fileName);
         }
     }
 
@@ -57,15 +62,18 @@ public class FileBasedLibrary {
         try (Writer writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(content.toString());
         } catch (IOException e) {
-            // todo handle
             System.err.println("Failed to writes contents! Exception has been caught.");
         }
-
     }
 
-    public boolean addBook(String name, int publicationYear, String authorName, long isbn) {
+    public boolean addBook(String name, Integer publicationYear, String authorName, Long isbn) {
+        if (name == null || publicationYear == null || authorName == null || isbn == null) {
+            System.err.println("Unable to add book. Null values are nor allowed!");
+            return Boolean.FALSE;
+        }
         Book book = new Book(name, publicationYear, authorName, isbn);
         if (books.contains(book)) {
+            System.out.println("Such a book already exists in the library.");
             return Boolean.FALSE;
         }
         boolean add = books.add(book);
@@ -82,7 +90,10 @@ public class FileBasedLibrary {
         return Boolean.FALSE;
     }
 
-    public boolean removeBook(long isbn) {
+    public boolean removeBook(Long isbn) {
+        if (isbn == null) {
+            return Boolean.FALSE;
+        }
         Predicate<Book> isbnFilter = new Predicate<Book>() {
             @Override
             public boolean test(Book book) {

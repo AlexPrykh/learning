@@ -3,13 +3,74 @@ package library.view;
 import library.controller.FileBasedLibrary;
 import library.model.Book;
 
-import java.util.List;
-import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static library.scannerUtils.ScannerUtils.*;
 
 public class ConsoleUserInterface {
     // MVC - model, view, controller
-    private Scanner scanner = new Scanner(System.in);
-    private FileBasedLibrary library;
+
+    //console commands
+    public static final String START_INFO = "Use these commands to manipulate the library:" +
+            "\n- commands info - shows information about commands;" +
+            "\n- add - using this command you can add a book to the library;" +
+            "\n- remove - using this command you can delete a book the library;" +
+            "\n- load - load library from provided filename;" +
+            "\n- search - using this command you can search a book the library.";
+
+    public static final String COMMANDS_INFO = "commands info";
+    public static final String COMMAND_LOAD = "load";
+    public static final String COMMAND_QUIT = "quit";
+    public static final String COMMAND_ADD = "add";
+    public static final String COMMAND_REMOVE = "remove";
+    public static final String COMMAND_SEARCH = "search";
+    public static final String COMMAND_INDEX = "index";
+    public static final String COMMAND_ISBN = "isbn";
+
+    public static final Map<String, Comparator<Book>> COMPARATORS = new HashMap<>();
+    public static final String SORT_FIELDS;
+
+    static {
+        COMPARATORS.put("book", new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        COMPARATORS.put("publicationYear", new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return Integer.compare(o1.getPublicationYear(), o2.getPublicationYear());
+            }
+        });
+        COMPARATORS.put("author", new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getAuthorName().compareTo(o2.getAuthorName());
+            }
+        });
+        COMPARATORS.put("isbn", new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return Long.compare(o1.getIsbn(), o2.getIsbn());
+            }
+        });
+
+        Set<String> keys = COMPARATORS.keySet();
+        StringBuilder keysString = new StringBuilder();
+        for (String key : keys) {
+            keysString.append(key).append(",");
+        }
+        SORT_FIELDS = keysString.substring(0, keysString.length() - 1);
+    }
+
+    private final Scanner scanner = new Scanner(System.in);
+    private final FileBasedLibrary library;
+    private List<Book> lastSearch;
 
     public ConsoleUserInterface(FileBasedLibrary library) {
         this.library = library;
@@ -21,106 +82,137 @@ public class ConsoleUserInterface {
 
         while (true) {
             // read user input
+            System.out.print("Please, enter a command: ");
             String input = scanner.nextLine();
 
-            if ("load".equalsIgnoreCase(input)) {
-                // todo read fileName from console
-                // library.setFileName(...)
-                String read = scanner.nextLine();
-                if (read.trim().isEmpty() || read.isEmpty()) {
-                    System.err.println("Error! Invalid file name");
-                }
-                library.setFileName(read);
+            if (COMMANDS_INFO.equalsIgnoreCase(input)) {
+                printStartInfo();
             }
 
-            if ("quit".equalsIgnoreCase(input)) {
+            if (COMMAND_LOAD.equalsIgnoreCase(input)) {
+                load();
+            }
+
+            if (COMMAND_QUIT.equalsIgnoreCase(input)) {
+                System.out.println("Happily! Have a productive day!");
                 break;
             }
 
             if (input.isEmpty()) {
+                System.err.println("Empty input! Unknown command!");
                 continue;
             }
 
-            if ("add".equalsIgnoreCase(input)) {
+            if (COMMAND_ADD.equalsIgnoreCase(input)) {
                 add();
             }
 
-            if ("remove".equalsIgnoreCase(input)) {
+            if (COMMAND_REMOVE.equalsIgnoreCase(input)) {
                 remove();
             }
 
-            if ("search".equalsIgnoreCase(input)) {
+            if (COMMAND_SEARCH.equalsIgnoreCase(input)) {
                 search();
             }
         }
     }
 
-    private void search() {
-        String bookName = getBookName(Boolean.TRUE);
-        Integer publicationYear = getPublicationYear(Boolean.FALSE);
-        String authorName = getAuthorName(Boolean.TRUE);
-        Long isbn = getIsbn(Boolean.FALSE);
-
-        List<Book> books = library.searchBooks(bookName, publicationYear, authorName, isbn);
-        for (int i = 0; i < books.size(); i++) {
-            System.out.printf("#%d: %s\n", i + 1, books.get(i));
+    private void load() {
+        System.out.println("Enter a file name to load:");
+        String readFileName = scanner.nextLine();
+        if (readFileName.trim().isEmpty() || readFileName.isEmpty()) {
+            System.err.println("Error! Invalid file name");
+        }
+        try {
+            library.reassignFileName(readFileName);
+            library.load();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: file does not exist!");
+        } catch (IOException e) {
+            System.err.println("Error! Cannot load library from file: " + e.getMessage());
         }
     }
 
-    // finish deleting by index
+    private void search() {
+        String bookName = readString("Book name", TRUE);
+        Integer publicationYear = readInteger("Publication year", TRUE);
+        String authorName = readString("Author name", TRUE);
+        Long isbn = readLong("ISBN", TRUE);
+        String sortField = readString("Sort by (available options: " + SORT_FIELDS + ")", TRUE);
+
+        lastSearch = library.searchBooks(bookName, publicationYear, authorName, isbn);
+        sort(sortField);
+        for (int i = 0; i < lastSearch.size(); i++) {
+            System.out.printf("#%d: %s\n", i + 1, lastSearch.get(i));
+        }
+    }
+
+    private void sort(String sortField) {
+        if (sortField == null) {
+            return;
+        }
+        if (!COMPARATORS.containsKey(sortField)) {
+            System.err.println("Unknown sorting option!");
+            return;
+        }
+        lastSearch.sort(COMPARATORS.get(sortField));
+    }
+
     private void remove() {
-        // how do you want to remove at this book - by index or by isbn?
+        printInformationHowDelete();
+
+        String command = scanner.nextLine();
+        if (COMMAND_INDEX.equalsIgnoreCase(command)) {
+            removeByIndex();
+        } else if (COMMAND_ISBN.equalsIgnoreCase(command)) {
+            removeByIsbn();
+        } else {
+            System.err.println("Unknown command!");
+        }
+    }
+
+    private void printInformationHowDelete() {
         System.out.println("How do you want to remove at this book - by index or by isbn?");
         System.out.println("Enter the command:\n" +
                 "- index - deletes the book by the selected index;\n" +
                 "- isbn - will delete the book by ISBN (identifier serial book number).");
-//        int deleteByIndex = Integer.parseInt(scanner.nextLine());
-//        while (deleteByIndex <= 0) {
-//            System.err.println("Error! Invalid data entered!");
-//            if (deleteByIndex > 0) {
-//               if (deleteByIndex >) проверка, не больше ли индекс за количество книг?
-//                boolean result = library.removeBook(deleteByIndex);
-//                if (result) {
-//                    System.out.println("Book removed.");
-//                } else {
-//                    System.out.println("Unable to delete book or book is missing!.");
-//                }
-//            }
-//        }
-
-        deleteByIsbn();
     }
 
-    private void deleteByIsbn() {
-        String deleteByIsbn = scanner.nextLine();
-        while (!"isbn".equalsIgnoreCase(deleteByIsbn)) {
-            if (deleteByIsbn.trim().isEmpty() || deleteByIsbn.isEmpty()) {
-                System.err.println("Error! Invalid data entered!");
-            }
-            if ("isbn".equalsIgnoreCase(deleteByIsbn)) {
-                long isbn = getIsbn(Boolean.FALSE);
-                boolean result = library.removeBook(isbn);
-                if (result) {
-                    System.out.println("Book removed.");
-                } else {
-                    System.out.println("Unable to delete book or book is missing!.");
-                }
-            }
+    private void removeByIndex() {
+        if (lastSearch == null) {
+            lastSearch = library.searchBooks(null, null, null, null);
+        }
+        Integer index = readInteger("Index", FALSE);
+        if (index == null || index <= 0 || index > lastSearch.size()) {
+            System.err.println("Invalid index!");
+        } else {
+            removeBook(lastSearch.get(index - 1).getIsbn());
+        }
+    }
+
+    private void removeByIsbn() {
+        Long isbn = readLong("ISBN", FALSE);
+        removeBook(isbn);
+    }
+
+    private void removeBook(Long isbn) {
+        boolean result = library.removeBook(isbn);
+        if (result) {
+            System.out.println("Book removed.");
+        } else {
+            System.out.println("Unable to delete book or book is missing!");
         }
     }
 
     private void printStartInfo() {
-        System.out.println("Use these commands to manipulate the library:" +
-                "\n- add - using this command you can add a book to the library;" +
-                "\n- remove - using this command you can delete a book the library;" +
-                "\n- search - using this command you can search a book the library.");
+        System.out.println(START_INFO);
     }
 
     private void add() {
-        String bookName = getBookName(Boolean.FALSE);
-        int publicationYear = getPublicationYear(Boolean.FALSE);
-        String authorName = getAuthorName(Boolean.FALSE);
-        long isbn = getIsbn(Boolean.FALSE);
+        String bookName = readString("Book name", FALSE);
+        Integer publicationYear = readInteger("Publication year", FALSE);
+        String authorName = readString("Author name", FALSE);
+        Long isbn = readLong("ISBN", FALSE);
 
         boolean result = library.addBook(bookName, publicationYear, authorName, isbn);
         if (result) {
@@ -128,65 +220,5 @@ public class ConsoleUserInterface {
         } else {
             System.out.println("Failed to add book! Try again!");
         }
-    }
-
-    private Long getIsbn(boolean emptyAllowed) {
-        Long isbn = null;
-        while (isbn == null || isbn <= 0) {
-            System.out.println("Please, enter a ISBN (identifier serial book number):");
-            isbn = Long.parseLong(scanner.nextLine());
-            if (isbn <= 0 && !emptyAllowed) {
-                System.err.println("identifier serial book number cannot be 0 or negative!");
-            }
-            if (isbn == 0 && emptyAllowed) {
-                return null;
-            }
-        }
-        return isbn;
-    }
-
-    private String getAuthorName(boolean emptyAllowed) {
-        String authorName = null;
-        while (authorName == null || authorName.trim().isEmpty()) {
-            System.out.println("Please, enter a author name:");
-            authorName = scanner.nextLine();
-            if (authorName.isEmpty() && !emptyAllowed) {
-                System.err.println("Author name cannot be empty!");
-            }
-            if (authorName.trim().isEmpty() && emptyAllowed) {
-                return null;
-            }
-        }
-        return authorName;
-    }
-
-    private Integer getPublicationYear(boolean emptyAllowed) {
-        Integer publicationYear = null;
-        while (publicationYear == null || publicationYear <= 0) {
-            System.out.println("Please, enter a year of publication:");
-            publicationYear = Integer.parseInt(scanner.nextLine());
-            if (publicationYear <= 0 && !emptyAllowed) {
-                System.err.println("The year of publication cannot be negative!");
-            }
-            if (publicationYear == 0 && emptyAllowed) {
-                return null;
-            }
-        }
-        return publicationYear;
-    }
-
-    private String getBookName(boolean emptyAllowed) {
-        String bookName = null;
-        while (bookName == null || bookName.trim().isEmpty()) {
-            System.out.println("Please, enter a name book: ");
-            bookName = scanner.nextLine();
-            if (bookName.isEmpty() && !emptyAllowed) {
-                System.err.println("Book title cannot be empty!");
-            }
-            if (bookName.trim().isEmpty() && emptyAllowed) {
-                return null;
-            }
-        }
-        return bookName;
     }
 }
