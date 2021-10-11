@@ -13,15 +13,14 @@ public class FileBasedLibrary {
 
     public void reassignFileName(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
-        if (!file.exists() || !file.isDirectory()) {
+        if (!file.exists() || file.isDirectory()) {
             throw new FileNotFoundException(fileName);
         }
         this.fileName = fileName;
     }
 
-    public FileBasedLibrary(String fileName) throws IOException {
+    public FileBasedLibrary(String fileName) {
         this.fileName = fileName;
-        load();
     }
 
     public void load() throws IOException {
@@ -62,7 +61,8 @@ public class FileBasedLibrary {
         try (Writer writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(content.toString());
         } catch (IOException e) {
-            System.err.println("Failed to writes contents! Exception has been caught.");
+            System.err.println("Failed to writes contents! Exception has been caught: " +
+                    e.getMessage());
         }
     }
 
@@ -79,15 +79,6 @@ public class FileBasedLibrary {
         boolean add = books.add(book);
         write();
         return add;
-    }
-
-    public boolean removeBook(int index) {
-        if (books.size() > index && index >= 0) {
-            books.remove(index);
-            write();
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
     }
 
     public boolean removeBook(Long isbn) {

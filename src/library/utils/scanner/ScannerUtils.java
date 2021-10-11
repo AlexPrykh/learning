@@ -1,24 +1,9 @@
-package library.scannerUtils;
+package library.utils.scanner;
 
 import java.util.Scanner;
 
 public class ScannerUtils {
     private static final Scanner SCANNER = new Scanner(System.in);
-
-    public static Long readLong(String fieldName, boolean emptyAllowed) {
-        Long isbn = null;
-        while (isbn == null || isbn <= 0) {
-            System.out.println("Please, enter a " + fieldName);
-            String isbnString = SCANNER.nextLine();
-            if (isbnString.trim().isEmpty() && !emptyAllowed) {
-                System.err.println("identifier serial book number cannot be 0 or negative!");
-            } else if (isbnString.trim().isEmpty()) {
-                return null;
-            }
-            isbn = Long.parseLong(isbnString);
-        }
-        return isbn;
-    }
 
     public static String readString(String fieldName, boolean emptyAllowed) {
         String stringValue = null;
@@ -47,5 +32,20 @@ public class ScannerUtils {
             intValue = Integer.parseInt(intString);
         }
         return intValue;
+    }
+
+    public static Long readLong(String fieldName, boolean emptyAllowed) {
+        Long isbn = null;
+        while (isbn == null || isbn <= 0) {
+            System.out.println("Please, enter a " + fieldName);
+            String isbnString = SCANNER.nextLine();
+            if (isbnString.trim().isEmpty() && !emptyAllowed) {
+                System.err.println("identifier serial book number cannot be 0 or negative!");
+            } else if (isbnString.trim().isEmpty()) {
+                return null;
+            }
+            isbn = Long.parseLong(isbnString);
+        }
+        return isbn;
     }
 }

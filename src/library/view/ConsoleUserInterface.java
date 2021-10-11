@@ -9,7 +9,7 @@ import java.util.*;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static library.scannerUtils.ScannerUtils.*;
+import static library.utils.scanner.ScannerUtils.*;
 
 public class ConsoleUserInterface {
     // MVC - model, view, controller
@@ -33,6 +33,11 @@ public class ConsoleUserInterface {
 
     public static final Map<String, Comparator<Book>> COMPARATORS = new HashMap<>();
     public static final String SORT_FIELDS;
+    public static final String INFORMATION_OF_DELETE = "How do you want to remove at this book - " +
+            "by index or by isbn?" +
+            "\nEnter the command:" +
+            "\n- index - deletes the book by the selected index;" +
+            "\n- isbn - will delete the book by ISBN (identifier serial book number).";
 
     static {
         COMPARATORS.put("book", new Comparator<Book>() {
@@ -79,6 +84,7 @@ public class ConsoleUserInterface {
     public void start() {
         System.out.println("Welcome to our library!");
         printStartInfo();
+        load();
 
         while (true) {
             // read user input
@@ -172,10 +178,7 @@ public class ConsoleUserInterface {
     }
 
     private void printInformationHowDelete() {
-        System.out.println("How do you want to remove at this book - by index or by isbn?");
-        System.out.println("Enter the command:\n" +
-                "- index - deletes the book by the selected index;\n" +
-                "- isbn - will delete the book by ISBN (identifier serial book number).");
+        System.out.println(INFORMATION_OF_DELETE);
     }
 
     private void removeByIndex() {

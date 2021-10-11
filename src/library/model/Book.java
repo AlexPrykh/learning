@@ -5,11 +5,11 @@ import java.util.Objects;
 // model
 public class Book {
     private String name;
-    private int publicationYear;
+    private Integer publicationYear;
     private String authorName;
-    private long isbn;
+    private Long isbn;
 
-    public Book(String name, int publicationYear, String authorName, long isbn) {
+    public Book(String name, Integer publicationYear, String authorName, Long isbn) {
         this.name = name;
         this.publicationYear = publicationYear;
         this.authorName = authorName;
@@ -28,7 +28,7 @@ public class Book {
         return publicationYear;
     }
 
-    public void setPublicationYear(int publicationYear) {
+    public void setPublicationYear(Integer publicationYear) {
         this.publicationYear = publicationYear;
     }
 
@@ -44,16 +44,16 @@ public class Book {
         return isbn;
     }
 
-    public void setIsbn(long isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Book)) return false;
         Book book = (Book) o;
-        return isbn == book.isbn;
+        return Objects.equals(getName(), book.getName()) && Objects.equals(getPublicationYear(), book.getPublicationYear()) && Objects.equals(getAuthorName(), book.getAuthorName()) && Objects.equals(getIsbn(), book.getIsbn());
     }
 
     @Override
