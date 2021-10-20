@@ -50,10 +50,14 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Book)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Book)) {
+            return false;
+        }
         Book book = (Book) o;
-        return Objects.equals(getName(), book.getName()) && Objects.equals(getPublicationYear(), book.getPublicationYear()) && Objects.equals(getAuthorName(), book.getAuthorName()) && Objects.equals(getIsbn(), book.getIsbn());
+        return Objects.equals(getIsbn(), book.getIsbn());
     }
 
     @Override
