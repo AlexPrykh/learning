@@ -25,6 +25,9 @@ public class Book {
     }
 
     public int getPublicationYear() {
+        if (publicationYear == null) {
+            return 0;
+        }
         return publicationYear;
     }
 
@@ -41,6 +44,9 @@ public class Book {
     }
 
     public long getIsbn() {
+        if (isbn == null) {
+            return 0;
+        }
         return isbn;
     }
 

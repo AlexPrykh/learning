@@ -25,6 +25,12 @@ public class FileBasedLibrary {
 
     public void load() throws IOException {
         try (Reader reader = new BufferedReader(new FileReader(fileName))) {
+//            finish up
+            File file = new File(fileName);
+
+            if (file.exists() && !file.isDirectory()) {
+                System.err.println("Error! No such file exists!");
+            }
 
             char[] theChars = new char[1024];
             int charsRead = reader.read(theChars, 0, theChars.length);
@@ -35,11 +41,22 @@ public class FileBasedLibrary {
             }
 
             String content = fileContent.toString();
+            if (content.isEmpty()) {
+                System.err.println("You are uploading an empty file!");
+            }
             String[] rawBooks = content.split("\n");
             List<Book> parsedBooks = new ArrayList<>();
 
             for (String rawBook : rawBooks) {
+                if (rawBook.isBlank()) {
+                    System.err.println("Error! Invalid file format!");
+                    continue;
+                }
                 String[] bookValues = rawBook.split(",");
+                if (bookValues != rawBook.split(",")) {
+                    System.err.println("Error! Invalid file format! The separator is not a comma!");
+                    continue;
+                }
                 String name = bookValues[0];
                 int publicationYear = Integer.parseInt(bookValues[1]);
                 String author = bookValues[2];
@@ -74,6 +91,14 @@ public class FileBasedLibrary {
         Book book = new Book(name, publicationYear, authorName, isbn);
         if (books.contains(book)) {
             System.out.println("Such a book already exists in the library.");
+            return Boolean.FALSE;
+        }
+        if (publicationYear <= 0) {
+            System.err.println("The publication year cannot be zero or negative!");
+            return Boolean.FALSE;
+        }
+        if (isbn <= 0) {
+            System.err.println("The unique serial number of the book cannot be zero or negative");
             return Boolean.FALSE;
         }
         boolean add = books.add(book);
