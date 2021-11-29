@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 public class FileBasedLibrary {
     private List<Book> books = new ArrayList<>();
     private String fileName;
+    public static final int LIBRARY_ROW_WORDS_COUNT = 4;
 
     public void reassignFileName(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
@@ -25,11 +26,10 @@ public class FileBasedLibrary {
 
     public void load() throws IOException {
         try (Reader reader = new BufferedReader(new FileReader(fileName))) {
-//            finish up
             File file = new File(fileName);
 
-            if (file.exists() && !file.isDirectory()) {
-                System.err.println("Error! No such file exists!");
+            if (file.exists() && file.isDirectory()) {
+                throw new FileNotFoundException(fileName);
             }
 
             char[] theChars = new char[1024];
@@ -53,10 +53,12 @@ public class FileBasedLibrary {
                     continue;
                 }
                 String[] bookValues = rawBook.split(",");
-                if (bookValues != rawBook.split(",")) {
-                    System.err.println("Error! Invalid file format! The separator is not a comma!");
+
+                if (bookValues.length != LIBRARY_ROW_WORDS_COUNT) {
+                    System.err.println("Error! Invalid file format!");
                     continue;
                 }
+
                 String name = bookValues[0];
                 int publicationYear = Integer.parseInt(bookValues[1]);
                 String author = bookValues[2];

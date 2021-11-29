@@ -2,30 +2,24 @@ package library.controller.test;
 
 import library.controller.FileBasedLibrary;
 import library.model.Book;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBasedLibraryTest {
-    private FileBasedLibrary library;
-    private static final String PATH = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/booksIsOk.txt";
-
-
-    @BeforeEach
-    void setUp() throws Exception {
-        library = new FileBasedLibrary(PATH);
-        library.load();
-
-    }
 
     @Test
     void testReassignFileName() throws IOException {
-        library.reassignFileName("/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/reFile.txt");
+        String path = "src/library/controller/test/reFile.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
+
+        library.reassignFileName(path);
         library.load();
         List<Book> actualBook = library.searchBooks(null, null, null, null);
         assertNotNull(actualBook);
@@ -34,27 +28,10 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testLoad() throws IOException {
-        Book expectedBook = new Book("testBook", 1998, "RacaMaka",
-                12312342525L);
-
-        library.addBook(expectedBook.getName(), expectedBook.getPublicationYear(),
-                expectedBook.getAuthorName(), expectedBook.getIsbn());
-
-        library.write();
-        List<Book> actualBook = library.searchBooks(null, null, null, null);
-        assertTrue(actualBook.contains(expectedBook));
-        FileBasedLibrary library2 = new FileBasedLibrary(PATH);
-        library2.load();
-        List<Book> actualBook2 = library2.searchBooks(null, null, null, null);
-        assertTrue(actualBook2.contains(expectedBook));
-    }
-
-    @Test
     void testLoadWithSpaces() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/withSpaces.txt";
+        String path = "src/library/controller/test/withSpaces.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
 
         Book expectedBook = new Book("testBook2", 1998, "Some author", 12312342528L);
 
@@ -71,36 +48,33 @@ class FileBasedLibraryTest {
         assertEquals(1, actualBook2.size());
     }
 
-//    not sure if this test is correct
     @Test
     void testLoadFileHasEmptyFields() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/fileHasEmptyFields.txt";
+        String path = "src/library/controller/test/fileHasEmptyFields.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
 
         List<Book> actualBook = library.searchBooks(null, null, null, null);
         assertEquals(4, actualBook.size());
     }
 
-//    not sure if this test is correct
     @Test
     void testLoadIfTheSeparatorIsNotAComma() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/ifTheSeparatorIsNotAComma.txt";
+        String path = "src/library/controller/test/ifTheSeparatorIsNotAComma.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
 
         List<Book> actualBook = library.searchBooks(null, null, null, null);
         assertEquals(0, actualBook.size());
     }
 
-//    not sure if this test is correct
     @Test
     void testLoadIfThereIsNoIsbnInTheLine() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/ifThereIsNoIsbnInTheLine.txt";
+        String path = "src/library/controller/test/ifThereIsNoIsbnInTheLine.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
 
         List<Book> actualBook = library.searchBooks(null, null, null, null);
@@ -109,51 +83,35 @@ class FileBasedLibraryTest {
 
     @Test
     void testLoadIfFileIsEmpty() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/emptyFile.txt";
+        String path = "src/library/controller/test/emptyFile.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
 
         List<Book> actualBook = library.searchBooks(null, null, null, null);
         assertEquals(0, actualBook.size());
     }
 
-//    finish the test
     @Test
-    void testLoadIfTheFileDoesNotExist() throws IOException {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/fileDoesNotExist.txt";
+    void testLoadIfTheFileDoesNotExist() {
+        String path = "src/library/controller/test/fileDoesNotExist.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        assertThrows(FileNotFoundException.class, new Executable() { // Anonymous new Executable() can be replaced with lambda
+            @Override
+            public void execute() throws Throwable {
+                library.load();
+            }
+        });
+    }
+
+    @Test
+    void testAddBook() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
 
-        File file = new File(path);
-
-        if (file.exists() && !file.isDirectory()) {
-            assertTrue(file.exists());
-            assertFalse(file.isDirectory());
-        }
-    }
-
-    @Test
-    void testWrite() throws IOException {
-        Book expectedBook = new Book("testBook", 1998, "RacaMaka",
-                12312342525L);
-
-        library.addBook(expectedBook.getName(), expectedBook.getPublicationYear(),
-                expectedBook.getAuthorName(), expectedBook.getIsbn());
-
-        library.write();
-        List<Book> actualBook = library.searchBooks(null, null, null, null);
-        assertTrue(actualBook.contains(expectedBook));
-        FileBasedLibrary library2 = new FileBasedLibrary(PATH);
-        library2.load();
-        List<Book> actualBook2 = library2.searchBooks(null, null, null, null);
-        assertTrue(actualBook2.contains(expectedBook));
-
-    }
-
-    @Test
-    void testAddBook() {
         Book expectedBook = new Book("testBook", 1998, "RacaMaka",
                 12312342525L);
 
@@ -165,10 +123,11 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testForAddingDuplicateBooks() {
-        String path = "/home/shteyn/IdeaProjects/my-first-project/learning/src/library/controller/test/addingDuplicateBooks.txt";
+    void testForAddingDuplicateBooks() throws IOException {
+        String path = "src/library/controller/test/addingDuplicateBooks.txt";
 
-        library = new FileBasedLibrary(path);
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        library.load();
 
         Book book1 = new Book("testBook1", 1998, "Some author", 12312342521L);
         Book book2 = new Book("testBook2", 1998, "Some author", 12312342522L);
@@ -203,7 +162,12 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testAddingABookIfOneOfTheArgumentsIsNull() {
+    void testAddingABookIfOneOfTheArgumentsIsNull() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        library.load();
+
 //        name -> null
         Book expectedBook = new Book(null, 1998, "Some Author",
                 12312342526L);
@@ -250,7 +214,12 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testRemoveBook() {
+    void testRemoveBook() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        library.load();
+
         long isbn = 1241242354245L;
 
         library.addBook("testBook", 1998,
@@ -264,7 +233,12 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testRemoveBookByNullIsbn() {
+    void testRemoveBookByNullIsbn() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        library.load();
+
         Long isbn = null;
 
         library.addBook("Some name", 2000, "Some author", isbn);
@@ -277,7 +251,12 @@ class FileBasedLibraryTest {
     }
 
     @Test
-    void testRemovalOfNonExistentIsbn() {
+    void testRemovalOfNonExistentIsbn() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
+        library.load();
+
         long isbn = 1223456354245L;
 
         library.removeBook(isbn);
@@ -287,7 +266,11 @@ class FileBasedLibraryTest {
 
     @Test
     void testSearchBooks() throws IOException {
+        String path = "src/library/controller/test/booksIsOk.txt";
+
+        FileBasedLibrary library = new FileBasedLibrary(path);
         library.load();
+
         String searchName = "Harry Potter";
         List<Book> actualBook = library.searchBooks(searchName, null, null, null);
         assertNotNull(actualBook);
