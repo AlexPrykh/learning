@@ -1,5 +1,6 @@
-package gameStore.dataModel.product;
+package gameStore.data.model.product;
 
+import java.util.Date;
 import java.util.Objects;
 
 public abstract class Product {
@@ -7,14 +8,14 @@ public abstract class Product {
     private final Genre genre;
     private GameCopyType gameCopyType;
     private final GameType gameType;
-    private Integer releaseDate;
+    private Date releaseDate;
     private String publisher;
     private Integer copiesAvailable;
     private Double price;
 
 
     public Product(String name, Genre genre, GameCopyType gameCopyType, GameType gameType,
-                   Integer releaseDate, String publisher, Integer copiesAvailable, Double price) {
+                   Date releaseDate, String publisher, Integer copiesAvailable, Double price) {
         this.name = name;
         this.genre = genre;
         this.gameCopyType = gameCopyType;
@@ -47,11 +48,11 @@ public abstract class Product {
         return gameType;
     }
 
-    public Integer getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Integer releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -1,4 +1,4 @@
-package gameStore.dataModel.user;
+package gameStore.data.model.user;
 
 import java.util.Objects;
 
@@ -95,11 +95,9 @@ public class User {
                 "Nickname: %s" + "\n" +
                 "Id: %d" + "\n" +
                 "Role: %s" + "\n" +
-                "Email: %s" + "\n" +
-                "Balance: %f" + "\n" +
-                "Bonus balance: %f";
+                "Email: %s" + "\n";
 
-        return String.format(user, realName, nickname, id, role, email, balance, bonusBalance);
+        return String.format(user, realName, nickname, id, role, email);
     }
 
     public String balanceInfo() {

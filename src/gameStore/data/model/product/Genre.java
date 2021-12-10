@@ -1,4 +1,4 @@
-package gameStore.dataModel.product;
+package gameStore.data.model.product;
 
 public enum Genre {
     ACTION, ADVENTURE, ARCADE, BATTLE_ROYAL, EDUCATIONAL, FIGHTING, HORROR, INTERACTIVE_FICTION, MMORPG, OTHER,
