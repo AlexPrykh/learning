@@ -8,7 +8,7 @@ public class DLC extends Product {
 
     public DLC(String name, Genre genre, GameCopyType gameCopyType, GameType gameType,
                Date releaseDate, String publisher, Integer copiesAvailable, Double price) {
-        super(name, genre, gameCopyType, gameType, releaseDate, publisher, copiesAvailable, price);
+        super(name, genre, gameCopyType, gameType, publisher, copiesAvailable, price);
         this.releaseDate = releaseDate;
     }
 
@@ -17,7 +17,6 @@ public class DLC extends Product {
         return GameType.DLC;
     }
 
-    @Override
     public Date getReleaseDate() {
         return releaseDate;
     }

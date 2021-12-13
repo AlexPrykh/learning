@@ -1,15 +1,14 @@
 package gameStore.data.model.product;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Subscription extends Product {
     private Integer days;
 
     public Subscription(String name, Genre genre, GameCopyType gameCopyType, GameType gameType,
-                        Date releaseDate, String publisher, Integer copiesAvailable, Double price,
+                        String publisher, Integer copiesAvailable, Double price,
                         Integer days) {
-        super(name, genre, gameCopyType, gameType, releaseDate, publisher, copiesAvailable, price);
+        super(name, genre, gameCopyType, gameType, publisher, copiesAvailable, price);
         this.days = days;
     }
 

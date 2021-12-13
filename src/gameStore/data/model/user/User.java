@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class User {
     private String realName;
-    private String nickname;
     private final Long id;
     private final Role role;
     private String password;
@@ -12,10 +11,9 @@ public class User {
     private Double balance;
     private Double bonusBalance;
 
-    public User(String realName, String nickname, Long id, Role role, String password, String email,
+    public User(String realName, Long id, Role role, String password, String email,
                 Double balance, Double bonusBalance) {
         this.realName = realName;
-        this.nickname = nickname;
         this.id = id;
         this.role = role;
         this.password = password;
@@ -30,14 +28,6 @@ public class User {
 
     public void setRealName(String realName) {
         this.realName = realName;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public Long getId() {
@@ -80,7 +70,6 @@ public class User {
     public String toString() {
         return "User:\n" +
                 "RealName: " + realName + "\n" +
-                "Nickname: " + nickname + "\n" +
                 "Id: " + id + "\n" +
                 "Role: " + role + "\n" +
                 "Password: " + password + "\n" +
@@ -92,12 +81,11 @@ public class User {
     public String userInfo() {
         String user = "User: \n" +
                 "RealName: %s" + "\n" +
-                "Nickname: %s" + "\n" +
                 "Id: %d" + "\n" +
                 "Role: %s" + "\n" +
                 "Email: %s" + "\n";
 
-        return String.format(user, realName, nickname, id, role, email);
+        return String.format(user, realName, id, role, email);
     }
 
     public String balanceInfo() {
@@ -111,12 +99,11 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getNickname().equals(user.getNickname()) && getId().equals(user.getId()) &&
-                getRole() == user.getRole() && getEmail().equals(user.getEmail());
+        return getEmail().equals(user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNickname(), getId(), getRole(), getEmail());
+        return Objects.hash(getEmail());
     }
 }

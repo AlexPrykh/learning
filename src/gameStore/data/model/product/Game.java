@@ -8,7 +8,7 @@ public class Game extends Product {
 
     public Game(String name, Genre genre, GameCopyType gameCopyType, GameType gameType,
                 Date releaseDate, String publisher, Integer copiesAvailable, Double price) {
-        super(name, genre, gameCopyType, gameType, releaseDate, publisher, copiesAvailable, price);
+        super(name, genre, gameCopyType, gameType, publisher, copiesAvailable, price);
         this.releaseDate = releaseDate;
     }
 
@@ -17,12 +17,10 @@ public class Game extends Product {
         return GameType.GAME;
     }
 
-    @Override
     public Date getReleaseDate() {
         return releaseDate;
     }
 
-    @Override
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }

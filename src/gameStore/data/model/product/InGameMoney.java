@@ -1,6 +1,5 @@
 package gameStore.data.model.product;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class InGameMoney extends Product {
@@ -8,9 +7,9 @@ public class InGameMoney extends Product {
     private String currency;
 
     public InGameMoney(String name, Genre genre, GameCopyType gameCopyType, GameType gameType,
-                       Date releaseDate, String publisher, Integer copiesAvailable, Double price,
+                       String publisher, Integer copiesAvailable, Double price,
                        Integer amount, String currency) {
-        super(name, genre, gameCopyType, gameType, releaseDate, publisher, copiesAvailable, price);
+        super(name, genre, gameCopyType, gameType, publisher, copiesAvailable, price);
         this.amount = amount;
         this.currency = currency;
     }
