@@ -1,6 +1,5 @@
 package gameStore.data.model.product;
 
-import java.util.Date;
 import java.util.Objects;
 
 public abstract class Product {
