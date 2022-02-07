@@ -3,7 +3,7 @@ package array;
 import java.util.ArrayList;
 
 public class ArrayListUtils {
-    //метод, который печатает числа личта в заданном диапазоне
+    //метод, который печатает числа list-а в заданном диапазоне
     public static void printNumbersInRange(ArrayList<Integer> numbers, int lowerLimit, int upperLimit) {
         for (int number : numbers) {
             if (number >= lowerLimit && number <= upperLimit) {
@@ -12,7 +12,7 @@ public class ArrayListUtils {
         }
     }
 
-    //метод, который вычисляет среднеее арифметическое листа
+    //метод, который вычисляет среднеее арифметическое list-а
     public static double average(ArrayList<Integer> numbers) {
         if (numbers.size() == 0) {
             return -1.0;
@@ -26,7 +26,7 @@ public class ArrayListUtils {
         return 1.0 * sum / numbers.size();
     }
 
-    //метод, который считает сумму листа
+    //метод, который считает сумму list-а
     public static double sum(ArrayList<Integer> numbers) {
         if (numbers.size() == 0) {
             return -1.0;
